@@ -1,0 +1,54 @@
+{%extends "base.html"%}
+
+{%block head%}
+<script src="/static/news/js/vue.min.js"></script>
+<script src="/static/news/js/index.js"></script>
+{%endblock head%}
+
+{%block menu%}
+<ul class="menu fl">
+    <li class="active" data-cid="0"><a href="javascript:;">最新</a></li>
+    {%for type in type_list%}
+    <li data-cid="{{type.id}}"><a href="javascript:;">{{type.title}}</a></li>
+    {%endfor%}
+</ul>
+{%endblock menu%}
+
+{%block body%}
+    <div class="conter_con">
+        <ul class="list_con fl">
+
+            <li v-for="news in newses">
+                <a :href="'/detail/'+news.id" class="news_pic fl"><img :src="news.pic_url"></a>
+                <a :href="'/detail/'+news.id" class="news_title fl">[[news.title]]</a>
+                <a :href="'/detail/'+news.id" class="news_detail fl">[[news.summary]]</a>
+                <div class="author_info fl">
+                    <div class="author fl">
+                        <img :src="news.user_pic_url" alt="author" style="width:30px;height:30px; border-radius:15px">
+                        <a :href="'/user/other/'+news.user_id">[[news.username]]</a>
+                    </div>
+                    <div class="time fl">[[news.update_time]]</div>
+                </div>
+            </li>
+
+        </ul>
+        <div class="rank_con fr">
+            <div class="rank_title">
+                <h3>点击排行</h3>
+            </div>
+            <ul class="rank_list">
+                {%for news in top_hot_news%}
+                    {%if loop.index == 1%}
+                    <li><span class="first">1</span><a href="/detail/{{news.id}}">{{news.title}}</a></li>
+                    {%elif loop.index == 2%}
+                    <li><span class="second">2</span><a href="/detail/{{news.id}}">{{news.title}}</a></li>
+                    {%elif loop.index == 3 %}
+                <li><span class="third">3</span><a href="/detail/{{news.id}}">{{news.title}}</a></li>
+                    {%else %}
+                    <li><span>{{loop.index}}</span><a href="/detail/{{news.id}}">{{news.title}}</a></li>
+                    {%endif%}
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+   {%endblock body%}
